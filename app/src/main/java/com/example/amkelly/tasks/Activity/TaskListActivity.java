@@ -1,8 +1,10 @@
-package com.example.amkelly.tasks;
+package com.example.amkelly.tasks.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toolbar;
+
+import com.example.amkelly.tasks.R;
 
 public class TaskListActivity extends Activity {
 
