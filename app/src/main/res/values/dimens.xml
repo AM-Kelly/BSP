@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The gutter on the left and right side of most of the pages -->
+    <dimen name="gutter">10dp</dimen>
+
+    <!-- Half of the spacing that will be added between cards the full spacing will be double this number -->
+    <dimen name="task_card_half_spacing">5dp</dimen>
+
+    <!-- The elevation of our task cards -->
+    <dimen name="task_card_elevation">6dp</dimen>
+</resources>
