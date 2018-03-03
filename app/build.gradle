@@ -28,4 +28,6 @@ dependencies {
     //Recyclerview,cardview and palette are all google libraries used to create Android Lollipop apps
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
+    //Picasso library for image DL
+    compile 'com.squareup.picasso:picasso:2.4.0'
 }

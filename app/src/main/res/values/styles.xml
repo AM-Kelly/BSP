@@ -1,8 +1,29 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- Def Colours -->
+    <color name="primary">#1eabf2</color>
+    <color name="primary_dark">#178acf</color>
+    <color name="accent">#ffb936</color>
+    <color name="window_background">#c1dae6</color>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Material.NoActionBar">
 
+        //Colour for app bar
+        <item name="android:colorPrimary">@color/primary</item>
+
+        //Colour for status bar and text fields
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+
+        //Colour for UI controls
+        <item name="android:windowBackground">@color/window_background</item>
+
+        //Nav bar (If there is no HW buttons)
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+
+        //
     </style>
 
 </resources>
