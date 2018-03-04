@@ -7,9 +7,11 @@ import android.widget.Toolbar;
 
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.fragment.TaskEditFragment;
+import com.example.amkelly.tasks.interfaces.OnEditFinished;
+import com.example.amkelly.tasks.interfaces.OnEditTask;
 
-public class TaskEditActivity extends Activity {
-
+public class TaskEditActivity extends Activity implements OnEditFinished
+{
     public static final String EXTRA_TASKID = "taskId";
 
     @Override
@@ -29,6 +31,12 @@ public class TaskEditActivity extends Activity {
                     R.id.container,
                     fragment,
                     fragmentTag).commit();
+    }
+
+    @Override
+    public void finishEditingTask()
+    {
+        finish();
     }
 
 }

@@ -7,6 +7,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import com.example.amkelly.tasks.activity.TaskEditActivity;
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.adapter.TaskListAdapter;
+import com.example.amkelly.tasks.interfaces.OnEditFinished;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -26,6 +30,7 @@ public class TaskEditFragment extends Fragment
 {
     static final String TASK_ID = "taskId";
     public static final String DEFAULT_FRAGMENT_TAG = "taskEditFragment";
+    private static final int MENU_SAVE = 1;
 
     //Views
     View rootView;
@@ -113,5 +118,35 @@ public class TaskEditFragment extends Fragment
         args.putLong(TaskEditActivity.EXTRA_TASKID, id);
         fragment.setArguments(args);
         return fragment;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        menu.add(0, MENU_SAVE, 0, R.string.confirm).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            //save button pressed
+            case MENU_SAVE :
+                //save();
+
+                ((OnEditFinished) getActivity()).finishEditingTask();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

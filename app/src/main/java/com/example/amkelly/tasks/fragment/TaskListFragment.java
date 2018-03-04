@@ -6,11 +6,15 @@ import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.adapter.TaskListAdapter;
+import com.example.amkelly.tasks.interfaces.OnEditTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,5 +46,28 @@ public class TaskListFragment extends Fragment {
         // Inflate the layout for this fragment
         return v;
     }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
+    //This section could be useful for the admin functions (add a new book and maybe delete?)
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_list, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.menu_insert:
+                ((OnEditTask) getActivity()).editTask(0);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
