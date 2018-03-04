@@ -1,7 +1,11 @@
 package com.example.amkelly.tasks.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import android.widget.ImageView;
 import com.example.amkelly.tasks.activity.TaskEditActivity;
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.adapter.TaskListAdapter;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -58,16 +63,46 @@ public class TaskEditFragment extends Fragment
     {
         View v = inflater.inflate(R.layout.fragment_task_edit, container, false);
 
-        //Set the thumbnail image
-        Picasso.with(getActivity())
-                .load(TaskListAdapter.getImageUrlForTask(taskId))
-                .into(imageView);
-
+        //Declaration has to go first (before picasso)
         rootView = v.getRootView();
         //The redundant (DATA) could be removed completely?
         titleText = (EditText) v.findViewById(R.id.title);
         notesText = (EditText) v.findViewById(R.id.notes);
         imageView = (ImageView) v.findViewById(R.id.image);
+
+        //Set the thumbnail image
+        Picasso.with(getActivity())
+                .load(TaskListAdapter.getImageUrlForTask(taskId))
+                .into(
+                        imageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Activity activity = getActivity();
+
+                                if (activity == null)
+                                    return;
+
+                                //Set the colours of the activity based on the colours of the image
+                                Bitmap bitmap = ((BitmapDrawable) imageView
+                                        .getDrawable())
+                                        .getBitmap();
+                                Palette palette = Palette.generate(bitmap, 32);
+                                int bgColor = palette.getLightMutedColor(0);
+
+                                if (bgColor != 0)
+                                {
+                                    rootView.setBackgroundColor(bgColor);
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+                                //do nothing as the defaults will be used
+
+                            }
+                        }
+                );
+                //.into(imageView);
 
         return v;
     }
