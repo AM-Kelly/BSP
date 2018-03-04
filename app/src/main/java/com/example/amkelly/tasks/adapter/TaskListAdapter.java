@@ -5,11 +5,13 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.amkelly.tasks.R;
+import com.example.amkelly.tasks.interfaces.OnEditTask;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -37,21 +39,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         return new ViewHolder(v);
     }
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i)
-    {
-        Context context = viewHolder.titleView.getContext();
-        viewHolder.titleView.setText(fakeData[i]);
-
-        //Checking data is assigned correctly
-        Log.e("Vars: ",fakeData[i]);
-
-        //Set image thubmnail
-        Picasso.with(context)
-                .load(getImageUrlForTask(i))
-                .into(viewHolder.imageView);
-    }
-
-    @Override
     public int getItemCount()
     {
         return fakeData.length;
@@ -72,8 +59,32 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
             imageView = (ImageView)card.findViewById(R.id.image);
         }
     }
+
     public static String getImageUrlForTask(long taskId)
     {
         return "http://lorempixel.com/600/400/cats/?fakeId=" + taskId;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, final int i)
+    {
+        final Context context = viewHolder.titleView.getContext();
+        viewHolder.titleView.setText(fakeData[i]);
+
+        //Checking data is assigned correctly
+        Log.e("Vars: ",fakeData[i]);
+
+        //Set image thubmnail
+        Picasso.with(context)
+                .load(getImageUrlForTask(i))
+                .into(viewHolder.imageView);
+
+        //Setting the click action
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((OnEditTask) context).editTask(i);
+            }
+        });
     }
 }
