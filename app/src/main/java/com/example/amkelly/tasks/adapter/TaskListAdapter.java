@@ -112,6 +112,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     }
     void deleteTask(Context context, long id)
     {
+        //Implement a toast
         Log.d("TaskListAdapter", "Deleted!");
     }
 }

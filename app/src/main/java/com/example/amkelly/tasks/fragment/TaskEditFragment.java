@@ -1,7 +1,9 @@
 package com.example.amkelly.tasks.fragment;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -142,9 +144,12 @@ public class TaskEditFragment extends Fragment
         {
             //save button pressed
             case MENU_SAVE :
+                //Implement a toast to tell the user that the data has been saved
                 //save();
-
-                ((OnEditFinished) getActivity()).finishEditingTask();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                DialogFragment newFragment = new AlertDialogFragment();
+                newFragment.show(ft, "alertDialog");
+                //((OnEditFinished) getActivity()).finishEditingTask();
                 return true;
         }
         return super.onOptionsItemSelected(item);
