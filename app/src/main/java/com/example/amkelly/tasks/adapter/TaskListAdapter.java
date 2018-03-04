@@ -1,6 +1,8 @@
 package com.example.amkelly.tasks.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -66,7 +68,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int i)
+    public void onBindViewHolder(final ViewHolder viewHolder, final int i)
     {
         final Context context = viewHolder.titleView.getContext();
         viewHolder.titleView.setText(fakeData[i]);
@@ -86,5 +88,30 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                 ((OnEditTask) context).editTask(i);
             }
         });
+        //Set the long press action
+        viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.delete_q)
+                        .setMessage(viewHolder.titleView.getText())
+                        .setCancelable(true)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(
+                                R.string.delete, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+
+                                        deleteTask(context, i);
+                                    }
+                                })
+                        .show();
+                return true;
+            }
+        });
+    }
+    void deleteTask(Context context, long id)
+    {
+        Log.d("TaskListAdapter", "Deleted!");
     }
 }

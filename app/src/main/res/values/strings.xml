@@ -8,5 +8,7 @@
     <string name="notes">Notes</string>
     <string name="menu_insert">Add Task</string>
     <string name="confirm">Save</string>
+    <string name="delete_q">Delete?</string>
+    <string name="delete">Delete</string>
 
 </resources>
