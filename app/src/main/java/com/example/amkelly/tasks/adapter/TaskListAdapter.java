@@ -1,8 +1,10 @@
 package com.example.amkelly.tasks.adapter;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +17,10 @@ import android.widget.Toast;
 
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.interfaces.OnEditTask;
+import com.example.amkelly.tasks.provider.TaskProvider;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by Adam on 03/03/2018.
@@ -23,15 +28,33 @@ import com.squareup.picasso.Picasso;
 
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder>
 {
-    static String[] fakeData = new String[]
+    /**static String[] fakeData = new String[]
     {
             "One",
             "Two",
-            "Three",
+            "Three",            this is the old data that was populating the view - redundant now
             "Four",
             "Five",
             "Ah ... ah ... ah!"
-    };
+    };*/
+
+    Cursor cursor;
+    int titleColumnIndex;
+    int notesColumnIndex;
+    int idColumnIndex;
+
+    public void swapCursor(Cursor c)
+    {
+        cursor = c;
+        if (cursor!=null)
+        {
+            cursor.moveToFirst();
+            titleColumnIndex = cursor.getColumnIndex(TaskProvider.COLUMN_TITLE);
+            notesColumnIndex = cursor.getColumnIndex(TaskProvider.COLUMN_NOTES);
+            idColumnIndex = cursor.getColumnIndex(TaskProvider.COLUMN_TASKID);
+        }
+        notifyDataSetChanged();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int i)
     {
@@ -44,13 +67,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     @Override
     public int getItemCount()
     {
-        return fakeData.length;
+        return cursor!=null ? cursor.getCount() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
         CardView cardView;
         TextView titleView;
+        TextView notesView;
         ImageView imageView;
 
         public ViewHolder(CardView card)
@@ -59,6 +83,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
             cardView = card;
             Log.d("Passed","test");
             titleView = (TextView)card.findViewById(R.id.text1);
+            notesView = (TextView)card.findViewById(R.id.text2);
             imageView = (ImageView)card.findViewById(R.id.image);
         }
     }
@@ -72,21 +97,23 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder viewHolder, final int i)
     {
         final Context context = viewHolder.titleView.getContext();
-        viewHolder.titleView.setText(fakeData[i]);
+        final long id = getItemId(i);
 
-        //Checking data is assigned correctly
-        Log.e("Vars: ",fakeData[i]);
+        //set the text
+        cursor.moveToPosition(i);
+        viewHolder.titleView.setText(cursor.getString(titleColumnIndex));
+        viewHolder.notesView.setText(cursor.getString(notesColumnIndex));
 
         //Set image thubmnail
         Picasso.with(context)
-                .load(getImageUrlForTask(i))
+                .load(getImageUrlForTask(id))
                 .into(viewHolder.imageView);
 
         //Setting the click action
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((OnEditTask) context).editTask(i);
+                ((OnEditTask) context).editTask(id);
             }
         });
         //Set the long press action
@@ -103,7 +130,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                                     @Override
                                     public void onClick(DialogInterface dialog, int i) {
 
-                                        deleteTask(context, i);
+                                        deleteTask(context, id);
                                     }
                                 })
                         .show();
@@ -111,10 +138,18 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
             }
         });
     }
+    @Override
+    public long getItemId(int position)
+    {
+        cursor.moveToPosition(position);
+        return cursor.getLong(idColumnIndex);
+    }
     void deleteTask(Context context, long id)
     {
-        //Implement a toast
-        //Toast toast = Toast.makeText(getActivity(), "Deleted!", Toast.LENGTH_SHORT).show();
-        Log.d("TaskListAdapter", "Deleted!");
+        context.getContentResolver()
+                .delete(
+                        ContentUris.withAppendedId(
+                                TaskProvider.CONTENT_URI, id),
+                                null,null);
     }
 }

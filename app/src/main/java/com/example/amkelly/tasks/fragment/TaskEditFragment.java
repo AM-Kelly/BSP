@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -17,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,7 +38,7 @@ import com.squareup.picasso.Picasso;
  * Created by Adam on 04/03/2018.
  */
 
-public class TaskEditFragment extends Fragment
+public class TaskEditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
     static final String TASK_ID = "taskId";
     public static final String DEFAULT_FRAGMENT_TAG = "taskEditFragment";
@@ -82,41 +87,81 @@ public class TaskEditFragment extends Fragment
         notesText = (EditText) v.findViewById(R.id.notes);
         imageView = (ImageView) v.findViewById(R.id.image);
 
-        //Set the thumbnail image
-        Picasso.with(getActivity())
-                .load(TaskListAdapter.getImageUrlForTask(taskId))
-                .into(
-                        imageView, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                Activity activity = getActivity();
+        if (taskId == 0)
+        {
 
-                                if (activity == null)
-                                    return;
-
-                                //Set the colours of the activity based on the colours of the image
-                                Bitmap bitmap = ((BitmapDrawable) imageView
-                                        .getDrawable())
-                                        .getBitmap();
-                                Palette palette = Palette.generate(bitmap, 32);
-                                int bgColor = palette.getLightMutedColor(0);
-
-                                if (bgColor != 0)
-                                {
-                                    rootView.setBackgroundColor(bgColor);
-                                }
-                            }
-
-                            @Override
-                            public void onError() {
-                                //do nothing as the defaults will be used
-
-                            }
-                        }
-                );
-                //.into(imageView);
-
+        }else
+        {
+            getLoaderManager().initLoader(0, null, this);
+        }
         return v;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args)
+    {
+        Uri taskUri = ContentUris.withAppendedId(TaskProvider.CONTENT_URI, taskId);
+
+        return new CursorLoader(getActivity(), taskUri, null, null, null, null);
+    }
+    //The below method is called when the loader has finished loading it's data
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor task)
+    {
+        if (task.getCount() == 0)
+        {
+            getActivity().runOnUiThread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            ((OnEditFinished) getActivity()).finishEditingTask();
+                        }
+                    }
+            );
+            return;
+        }
+        titleText.setText(task.getString(task.getColumnIndexOrThrow(TaskProvider.COLUMN_TITLE)));
+        notesText.setText(task.getString(task.getColumnIndexOrThrow(TaskProvider.COLUMN_NOTES)));
+
+        //Set the image
+        Picasso.with(getActivity())
+         .load(TaskListAdapter.getImageUrlForTask(taskId))
+         .into(
+         imageView, new Callback() {
+        @Override
+        public void onSuccess() {
+        Activity activity = getActivity();
+
+        if (activity == null)
+        return;
+
+        //Set the colours of the activity based on the colours of the image
+        Bitmap bitmap = ((BitmapDrawable) imageView
+        .getDrawable())
+        .getBitmap();
+        Palette palette = Palette.generate(bitmap, 32);
+        int bgColor = palette.getLightMutedColor(0);
+
+        if (bgColor != 0)
+        {
+        rootView.setBackgroundColor(bgColor);
+        }
+        }
+
+        @Override
+        public void onError() {
+        //do nothing as the defaults will be used
+
+        }
+        }
+         );
+         //.into(imageView);
+
+    }
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0)
+    {
+        //Nothing to do here :)
     }
     public static TaskEditFragment newInstance(long id)
     {

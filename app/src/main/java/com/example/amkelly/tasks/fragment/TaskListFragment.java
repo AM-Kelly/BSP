@@ -1,6 +1,10 @@
 package com.example.amkelly.tasks.fragment;
 
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +19,12 @@ import android.view.ViewGroup;
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.adapter.TaskListAdapter;
 import com.example.amkelly.tasks.interfaces.OnEditTask;
+import com.example.amkelly.tasks.provider.TaskProvider;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskListFragment extends Fragment {
+public class TaskListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     RecyclerView recyclerView;
     TaskListAdapter adapter;
@@ -33,6 +38,8 @@ public class TaskListFragment extends Fragment {
     {
         super.onCreate(savedInstanceState);
         adapter = new TaskListAdapter();
+
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -69,5 +76,20 @@ public class TaskListFragment extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public Loader<Cursor> onCreateLoader(int ignored, Bundle args)
+    {
+        return new CursorLoader(getActivity(), TaskProvider.CONTENT_URI, null, null, null, null);
+    }
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)
+    {
+        adapter.swapCursor(cursor);
+    }
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader)
+    {
+        adapter.swapCursor(null);
     }
 }
