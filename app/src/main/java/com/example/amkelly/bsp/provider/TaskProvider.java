@@ -1,4 +1,4 @@
-package com.example.amkelly.tasks.provider;
+package com.example.amkelly.bsp.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -66,7 +66,7 @@ public class TaskProvider extends ContentProvider {
     }
 
     //Content Provider URL and Authority
-    public static final String AUTHORITY = "com.example.amkelly.tasks.provider.TaskProvider";
+    public static final String AUTHORITY = "TaskProvider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/task");
 
     //MIME Types used for listing tasks or looking for a single task

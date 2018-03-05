@@ -1,9 +1,7 @@
-package com.example.amkelly.tasks.fragment;
+package com.example.amkelly.bsp.fragment;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -21,16 +19,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.amkelly.tasks.activity.TaskEditActivity;
-import com.example.amkelly.tasks.R;
-import com.example.amkelly.tasks.adapter.TaskListAdapter;
-import com.example.amkelly.tasks.interfaces.OnEditFinished;
-import com.example.amkelly.tasks.provider.TaskProvider;
+import com.example.amkelly.bsp.provider.TaskProvider;
+import com.example.amkelly.bsp.activity.TaskEditActivity;
+import com.example.amkelly.bsp.R;
+import com.example.amkelly.bsp.adapter.TaskListAdapter;
+import com.example.amkelly.bsp.interfaces.OnEditFinished;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

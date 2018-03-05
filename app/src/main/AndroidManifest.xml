@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.amkelly.tasks">
+    package="com.example.amkelly.bsp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.TaskListActivity">
+        <activity android:name="com.example.amkelly.bsp.activity.TaskListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,16 +21,16 @@
         </activity>
         <activity
             android:theme="@style/AppTheme.TransparentActionBar"
-            android:name=".activity.TaskEditActivity"
+            android:name="com.example.amkelly.bsp.activity.TaskEditActivity"
             android:label=""
-            android:parentActivityName=".activity.TaskListActivity">
+            android:parentActivityName="com.example.amkelly.bsp.activity.TaskListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.amkelly.tasks.activity.TaskListActivity" />
+                android:value="com.example.amkelly.bsp.com.example.amkelly.bsp.activity.TaskListActivity" />
         </activity>
         <provider
-            android:name=".provider.TaskProvider"
-            android:authorities="com.example.amkelly.tasks.provider.TaskProvider"
+            android:name="com.example.amkelly.bsp.provider.TaskProvider"
+            android:authorities="com.example.amkelly.bsp.provider.TaskProvider"
             android:exported="false"/>
     </application>
 

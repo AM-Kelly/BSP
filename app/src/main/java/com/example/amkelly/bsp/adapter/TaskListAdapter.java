@@ -1,4 +1,4 @@
-package com.example.amkelly.tasks.adapter;
+package com.example.amkelly.bsp.adapter;
 
 import android.app.AlertDialog;
 import android.content.ContentUris;
@@ -13,14 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.amkelly.tasks.R;
-import com.example.amkelly.tasks.interfaces.OnEditTask;
-import com.example.amkelly.tasks.provider.TaskProvider;
+import com.example.amkelly.bsp.provider.TaskProvider;
+import com.example.amkelly.bsp.R;
+import com.example.amkelly.bsp.interfaces.OnEditTask;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by Adam on 03/03/2018.

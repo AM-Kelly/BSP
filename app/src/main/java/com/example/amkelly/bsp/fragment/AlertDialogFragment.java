@@ -1,4 +1,4 @@
-package com.example.amkelly.tasks.fragment;
+package com.example.amkelly.bsp.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,8 +6,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Toast;
-
-import com.example.amkelly.tasks.interfaces.OnEditFinished;
 
 /**
  * Created by Adam on 04/03/2018.

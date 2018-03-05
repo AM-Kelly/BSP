@@ -1,12 +1,12 @@
-package com.example.amkelly.tasks.activity;
+package com.example.amkelly.bsp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toolbar;
 
-import com.example.amkelly.tasks.R;
-import com.example.amkelly.tasks.interfaces.OnEditTask;
+import com.example.amkelly.bsp.R;
+import com.example.amkelly.bsp.interfaces.OnEditTask;
 
 public class TaskListActivity extends Activity implements OnEditTask{
 

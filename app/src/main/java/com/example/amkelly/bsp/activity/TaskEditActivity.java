@@ -1,14 +1,13 @@
-package com.example.amkelly.tasks.activity;
+package com.example.amkelly.bsp.activity;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.app.Activity;
 import android.widget.Toolbar;
 
-import com.example.amkelly.tasks.R;
-import com.example.amkelly.tasks.fragment.TaskEditFragment;
-import com.example.amkelly.tasks.interfaces.OnEditFinished;
-import com.example.amkelly.tasks.interfaces.OnEditTask;
+import com.example.amkelly.bsp.fragment.TaskEditFragment;
+import com.example.amkelly.bsp.R;
+import com.example.amkelly.bsp.interfaces.OnEditFinished;
 
 public class TaskEditActivity extends Activity implements OnEditFinished
 {

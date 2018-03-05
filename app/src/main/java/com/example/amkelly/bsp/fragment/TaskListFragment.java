@@ -1,4 +1,4 @@
-package com.example.amkelly.tasks.fragment;
+package com.example.amkelly.bsp.fragment;
 
 
 import android.app.LoaderManager;
@@ -16,10 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.amkelly.tasks.R;
-import com.example.amkelly.tasks.adapter.TaskListAdapter;
-import com.example.amkelly.tasks.interfaces.OnEditTask;
-import com.example.amkelly.tasks.provider.TaskProvider;
+import com.example.amkelly.bsp.R;
+import com.example.amkelly.bsp.adapter.TaskListAdapter;
+import com.example.amkelly.bsp.interfaces.OnEditTask;
+import com.example.amkelly.bsp.provider.TaskProvider;
 
 /**
  * A simple {@link Fragment} subclass.
