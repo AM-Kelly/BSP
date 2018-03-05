@@ -66,7 +66,7 @@ public class BookProvider extends ContentProvider {
     }
 
     //Content Provider URL and Authority
-    public static final String AUTHORITY = "BookProvider";
+    public static final String AUTHORITY = "com.example.amkelly.bsp.provider.BookProvider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/task");
 
     //MIME Types used for listing tasks or looking for a single task
