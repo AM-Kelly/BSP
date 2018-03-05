@@ -11,15 +11,15 @@ import com.example.amkelly.bsp.interfaces.OnEditFinished;
 
 public class BookEditActivity extends Activity implements OnEditFinished
 {
-    public static final String EXTRA_TASKID = "taskId";
+    public static final String EXTRA_BOOKID = "taskId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_edit);
+        setContentView(R.layout.activity_book_edit);
         setActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        long id = getIntent().getLongExtra(BookEditActivity.EXTRA_TASKID,0L);
+        long id = getIntent().getLongExtra(BookEditActivity.EXTRA_BOOKID,0L);
 
         Fragment fragment = BookEditFragment.newInstance(id);
 

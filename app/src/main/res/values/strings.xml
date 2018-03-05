@@ -1,15 +1,20 @@
 <resources>
-    <string name="app_name">Tasks</string>
+    <string name="app_name">Books</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_task_edit">Tasks</string>
-    <string name="title">Title</string>
-    <string name="notes">Notes</string>
-    <string name="menu_insert">Add Task</string>
+    <string name="title_activity_book_edit">Books</string>
+    <!-- The strings below are hints -->
+    <string name="book_title">Title</string>
+    <string name="book_author">Author</string>
+    <string name="book_isbn">ISBN</string>
+    <string name="book_abstract">Abstract</string>
+    <string name="book_price">Price</string>
+
+    <string name="menu_insert">Add Book</string>
     <string name="confirm">Save</string>
     <string name="delete_q">Delete?</string>
     <string name="delete">Delete</string>
-    <string name="task_saved_message">Task Saved</string>
+    <string name="book_saved_message">Book Saved</string>
 
 </resources>

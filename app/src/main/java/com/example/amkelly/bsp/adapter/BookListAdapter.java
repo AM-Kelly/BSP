@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,20 +24,13 @@ import com.squareup.picasso.Picasso;
 
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder>
 {
-    /**static String[] fakeData = new String[]
-    {
-            "One",
-            "Two",
-            "Three",            this is the old data that was populating the view - redundant now
-            "Four",
-            "Five",
-            "Ah ... ah ... ah!"
-    };*/
-
     Cursor cursor;
-    int titleColumnIndex;
-    int notesColumnIndex;
-    int idColumnIndex;
+    int bookPriceColumnIndex;
+    int bookAbstractColumnIndex;
+    int bookIsbnColumnIndex;
+    int bookAuthorColumnIndex;
+    int bookTitleColumnIndex;
+    int bookIdColumnIndex;
 
     public void swapCursor(Cursor c)
     {
@@ -46,9 +38,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         if (cursor!=null)
         {
             cursor.moveToFirst();
-            titleColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_TITLE);
-            notesColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_NOTES);
-            idColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_TASKID);
+            bookPriceColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKPRICE);
+            bookAbstractColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKABSTRACT);
+            bookIsbnColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKISBN);
+            bookAuthorColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKAUTHOR);
+            bookTitleColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKTITLE);
+            bookIdColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKID);
         }
         notifyDataSetChanged();
     }
@@ -56,7 +51,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int i)
     {
         //Create a new view
-        CardView v = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_task, parent, false);
+        CardView v = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_book, parent, false);
 
         //Wrap it in a ViewHolder
         return new ViewHolder(v);
@@ -70,41 +65,43 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
         CardView cardView;
-        TextView titleView;
-        TextView notesView;
-        ImageView imageView;
+        TextView bookTitleView;
+        TextView bookAbstractView;
+        ImageView bookImageView;
 
         public ViewHolder(CardView card)
         {
             super(card);
             cardView = card;
-            Log.d("Passed","test");
-            titleView = (TextView)card.findViewById(R.id.text1);
-            notesView = (TextView)card.findViewById(R.id.text2);
-            imageView = (ImageView)card.findViewById(R.id.image);
+            /**The code below is for the card view -> requires modifying*/
+            bookTitleView = (TextView)card.findViewById(R.id.text1);
+            bookAbstractView = (TextView)card.findViewById(R.id.text2);
+            bookImageView = (ImageView)card.findViewById(R.id.image);
         }
     }
 
     public static String getImageUrlForTask(long taskId)
     {
+        /**Image URL here - will be replaced with glide? Based on ISBN*/
         return "http://lorempixel.com/600/400/cats/?fakeId=" + taskId;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i)
     {
-        final Context context = viewHolder.titleView.getContext();
+        final Context context = viewHolder.bookTitleView.getContext();
         final long id = getItemId(i);
 
-        //set the text
+        //set the text of the card
+        /** This code is also for the card -> requires modifying */
         cursor.moveToPosition(i);
-        viewHolder.titleView.setText(cursor.getString(titleColumnIndex));
-        viewHolder.notesView.setText(cursor.getString(notesColumnIndex));
+        viewHolder.bookTitleView.setText(cursor.getString(bookTitleColumnIndex));
+        viewHolder.bookAbstractView.setText(cursor.getString(bookAbstractColumnIndex));
 
         //Set image thubmnail
         Picasso.with(context)
                 .load(getImageUrlForTask(id))
-                .into(viewHolder.imageView);
+                .into(viewHolder.bookImageView);
 
         //Setting the click action
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +116,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
             public boolean onLongClick(View view) {
                 new AlertDialog.Builder(context)
                         .setTitle(R.string.delete_q)
-                        .setMessage(viewHolder.titleView.getText())
+                        .setMessage(viewHolder.bookTitleView.getText())
                         .setCancelable(true)
                         .setNegativeButton(android.R.string.cancel, null)
                         .setPositiveButton(
@@ -139,7 +136,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public long getItemId(int position)
     {
         cursor.moveToPosition(position);
-        return cursor.getLong(idColumnIndex);
+        return cursor.getLong(bookIdColumnIndex);
     }
     void deleteTask(Context context, long id)
     {

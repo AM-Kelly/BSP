@@ -45,7 +45,7 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_task_list, container, false);
+        final View v = inflater.inflate(R.layout.fragment_book_list, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

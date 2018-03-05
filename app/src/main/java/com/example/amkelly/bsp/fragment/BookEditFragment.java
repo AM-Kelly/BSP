@@ -37,17 +37,20 @@ import com.squareup.picasso.Picasso;
 
 public class BookEditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
-    static final String TASK_ID = "taskId";
-    public static final String DEFAULT_FRAGMENT_TAG = "taskEditFragment";
+    static final String BOOK_ID = "bookId";
+    public static final String DEFAULT_FRAGMENT_TAG = "bookEditFragment";
     private static final int MENU_SAVE = 1;
 
     //Views
     View rootView;
-    EditText titleText;
-    EditText notesText;
-    ImageView imageView;
+    EditText bookTitleText;
+    EditText bookAuthorText;
+    EditText bookIsbnText;
+    EditText bookAbstractText;
+    EditText bookPriceText;
+    ImageView bookImageView;
 
-    long taskId;
+    long bookId;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -56,11 +59,11 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         Bundle arguments = getArguments();
         if (arguments != null)//This was just arguments - so might need changing back
         {
-            taskId = arguments.getLong(BookEditActivity.EXTRA_TASKID, 0L);//Same here with arguments
+            bookId = arguments.getLong(BookEditActivity.EXTRA_BOOKID, 0L);//Same here with arguments
         }
         if (savedInstanceState != null)
         {
-            taskId = savedInstanceState.getLong(TASK_ID);
+            bookId = savedInstanceState.getLong(BOOK_ID);
         }
     }
     @Override
@@ -69,22 +72,25 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         super.onSaveInstanceState(outState);
 
         //This field may have changed whilst the activity was running so it is saved to the outState bundle so it can be restored later
-        outState.putLong(TASK_ID, taskId);
+        outState.putLong(BOOK_ID, bookId);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.fragment_task_edit, container, false);
+        View v = inflater.inflate(R.layout.fragment_book_edit, container, false);
 
         //Declaration has to go first (before picasso)
         rootView = v.getRootView();
         //The redundant (DATA) could be removed completely?
-        titleText = (EditText) v.findViewById(R.id.title);
-        notesText = (EditText) v.findViewById(R.id.notes);
-        imageView = (ImageView) v.findViewById(R.id.image);
+        bookTitleText = (EditText) v.findViewById(R.id.book_title);
+        bookAuthorText = (EditText) v.findViewById(R.id.book_author);
+        bookIsbnText = (EditText) v.findViewById(R.id.book_isbn);
+        bookAbstractText = (EditText) v.findViewById(R.id.book_abstract);
+        bookPriceText = (EditText) v.findViewById(R.id.book_price);
+        bookImageView = (ImageView) v.findViewById(R.id.book_image);
 
-        if (taskId == 0)
+        if (bookId == 0)
         {
 
         }else
@@ -97,7 +103,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args)
     {
-        Uri taskUri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, taskId);
+        Uri taskUri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
 
         return new CursorLoader(getActivity(), taskUri, null, null, null, null);
     }
@@ -117,14 +123,17 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
             );
             return;
         }
-        titleText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_TITLE)));
-        notesText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_NOTES)));
+        bookTitleText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKTITLE)));
+        bookAuthorText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKAUTHOR)));
+        bookIsbnText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKISBN)));
+        bookAbstractText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKABSTRACT)));
+        bookPriceText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKPRICE)));
 
         //Set the image
         Picasso.with(getActivity())
-         .load(BookListAdapter.getImageUrlForTask(taskId))
+         .load(BookListAdapter.getImageUrlForTask(bookId))
          .into(
-         imageView, new Callback() {
+                 bookImageView, new Callback() {
         @Override
         public void onSuccess() {
         Activity activity = getActivity();
@@ -133,7 +142,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         return;
 
         //Set the colours of the activity based on the colours of the image
-        Bitmap bitmap = ((BitmapDrawable) imageView
+        Bitmap bitmap = ((BitmapDrawable) bookImageView
         .getDrawable())
         .getBitmap();
         Palette palette = Palette.generate(bitmap, 32);
@@ -152,7 +161,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         }
         }
          );
-         //.into(imageView);
+         //.into(bookImageView);
 
     }
     @Override
@@ -164,7 +173,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     {
         BookEditFragment fragment = new BookEditFragment();
         Bundle args = new Bundle();
-        args.putLong(BookEditActivity.EXTRA_TASKID, id);
+        args.putLong(BookEditActivity.EXTRA_BOOKID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -204,33 +213,39 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     private void save()
     {
         /**
-         *This will be where changed can be made for more fields
+         *This will be where changes can be made for more fields
          **/
         //put all values the user enter into a ContentValue object
         //Getting the values
-        String title = titleText.getText().toString();
-        String notes = notesText.getText().toString();
+        String bookTitle = bookTitleText.getText().toString();
+        String bookAuthor = bookAuthorText.getText().toString();
+        String bookIsbn = bookIsbnText.getText().toString();
+        String bookAbstract = bookAbstractText.getText().toString();
+        String bookPrice = bookPriceText.getText().toString();
         ContentValues values = new ContentValues();
         //Setting the values
-        values.put(BookProvider.COLUMN_TITLE, title);
-        values.put(BookProvider.COLUMN_NOTES, notes);
+        values.put(BookProvider.COLUMN_BOOKTITLE, bookTitle);
+        values.put(BookProvider.COLUMN_BOOKAUTHOR, bookAuthor);
+        values.put(BookProvider.COLUMN_BOOKISBN, bookIsbn);
+        values.put(BookProvider.COLUMN_BOOKABSTRACT, bookAbstract);
+        values.put(BookProvider.COLUMN_BOOKPRICE, bookPrice);
 
         //The task ID will be 0 when we create a new task else it will be the ID of the task being edited
-        if (taskId == 0)
+        if (bookId == 0)
         {
-            //Create a new task and set the taskId to the id of the new task
+            //Create a new task and set the bookId to the id of the new task
             Uri itemUri = getActivity().getContentResolver().insert(BookProvider.CONTENT_URI, values);
-            taskId = ContentUris.parseId(itemUri);
+            bookId = ContentUris.parseId(itemUri);
         }else
         {
             //Update the existing task
-            Uri uri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, taskId);
+            Uri uri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
             int count = getActivity().getContentResolver().update(uri, values, null, null);
 
             //If user doesn't edit exactly one entry throw an error
             if (count != 1)
-                throw new IllegalStateException("Unable to update " + taskId);
+                throw new IllegalStateException("Unable to update " + bookId);
         }
-        Toast.makeText(getActivity(), getString(R.string.task_saved_message), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.book_saved_message), Toast.LENGTH_SHORT).show();
     }
 }

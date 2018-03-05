@@ -13,13 +13,13 @@ public class BookListActivity extends Activity implements OnEditTask{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_list);
+        setContentView(R.layout.activity_book_list);
         setActionBar((Toolbar) findViewById(R.id.toolbar));
     }
 
     @Override
     public void editTask(long id) {
         //When a task is opened take the ID to know which task to open and edit
-        startActivity(new Intent(this, BookEditActivity.class).putExtra(BookEditActivity.EXTRA_TASKID, id));
+        startActivity(new Intent(this, BookEditActivity.class).putExtra(BookEditActivity.EXTRA_BOOKID, id));
     }
 }
