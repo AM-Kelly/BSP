@@ -8,7 +8,7 @@ import android.widget.Toolbar;
 import com.example.amkelly.bsp.R;
 import com.example.amkelly.bsp.interfaces.OnEditTask;
 
-public class TaskListActivity extends Activity implements OnEditTask{
+public class BookListActivity extends Activity implements OnEditTask{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,6 @@ public class TaskListActivity extends Activity implements OnEditTask{
     @Override
     public void editTask(long id) {
         //When a task is opened take the ID to know which task to open and edit
-        startActivity(new Intent(this, TaskEditActivity.class).putExtra(TaskEditActivity.EXTRA_TASKID, id));
+        startActivity(new Intent(this, BookEditActivity.class).putExtra(BookEditActivity.EXTRA_TASKID, id));
     }
 }

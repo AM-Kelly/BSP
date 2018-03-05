@@ -17,19 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.amkelly.bsp.R;
-import com.example.amkelly.bsp.adapter.TaskListAdapter;
+import com.example.amkelly.bsp.adapter.BookListAdapter;
 import com.example.amkelly.bsp.interfaces.OnEditTask;
-import com.example.amkelly.bsp.provider.TaskProvider;
+import com.example.amkelly.bsp.provider.BookProvider;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class BookListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     RecyclerView recyclerView;
-    TaskListAdapter adapter;
+    BookListAdapter adapter;
 
-    public TaskListFragment() {
+    public BookListFragment() {
         // Required empty public constructor
     }
 
@@ -37,7 +37,7 @@ public class TaskListFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        adapter = new TaskListAdapter();
+        adapter = new BookListAdapter();
 
         getLoaderManager().initLoader(0, null, this);
     }
@@ -80,7 +80,7 @@ public class TaskListFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int ignored, Bundle args)
     {
-        return new CursorLoader(getActivity(), TaskProvider.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(getActivity(), BookProvider.CONTENT_URI, null, null, null, null);
     }
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)

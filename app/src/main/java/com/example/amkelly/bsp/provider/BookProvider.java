@@ -18,7 +18,7 @@ import android.widget.Switch;
  * Created by Adam on 05/03/2018.
  */
 
-public class TaskProvider extends ContentProvider {
+public class BookProvider extends ContentProvider {
     //Database Columns
     public static final String COLUMN_TASKID = "_id";
     public static final String COLUMN_NOTES = "notes";
@@ -66,12 +66,12 @@ public class TaskProvider extends ContentProvider {
     }
 
     //Content Provider URL and Authority
-    public static final String AUTHORITY = "TaskProvider";
+    public static final String AUTHORITY = "BookProvider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/task");
 
     //MIME Types used for listing tasks or looking for a single task
-    private static final String TASKS_MIME_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.com.amkelly.tasks.tasks";
-    private static final String TASK_MIME_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.com.amkelly.tasks.task";
+    private static final String TASKS_MIME_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.com.amkelly.bsp.tasks";
+    private static final String TASK_MIME_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.com.amkelly.bsp.task";
 
     //URI Matcher
     private static final int LIST_TASK = 0;

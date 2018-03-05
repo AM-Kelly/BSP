@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.amkelly.bsp.activity.TaskListActivity">
+        <activity android:name=".activity.BookListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,16 +21,16 @@
         </activity>
         <activity
             android:theme="@style/AppTheme.TransparentActionBar"
-            android:name="com.example.amkelly.bsp.activity.TaskEditActivity"
+            android:name=".activity.BookEditActivity"
             android:label=""
-            android:parentActivityName="com.example.amkelly.bsp.activity.TaskListActivity">
+            android:parentActivityName=".activity.BookListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.amkelly.bsp.com.example.amkelly.bsp.activity.TaskListActivity" />
+                android:value="com.example.amkelly.bsp.activity.BookListActivity" />
         </activity>
         <provider
-            android:name="com.example.amkelly.bsp.provider.TaskProvider"
-            android:authorities="com.example.amkelly.bsp.provider.TaskProvider"
+            android:name=".provider.BookProvider"
+            android:authorities="com.example.amkelly.bsp.provider.BookProvider"
             android:exported="false"/>
     </application>
 

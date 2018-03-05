@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.amkelly.bsp.provider.TaskProvider;
+import com.example.amkelly.bsp.provider.BookProvider;
 import com.example.amkelly.bsp.R;
 import com.example.amkelly.bsp.interfaces.OnEditTask;
 import com.squareup.picasso.Picasso;
@@ -23,7 +23,7 @@ import com.squareup.picasso.Picasso;
  * Created by Adam on 03/03/2018.
  */
 
-public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder>
+public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder>
 {
     /**static String[] fakeData = new String[]
     {
@@ -46,9 +46,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         if (cursor!=null)
         {
             cursor.moveToFirst();
-            titleColumnIndex = cursor.getColumnIndex(TaskProvider.COLUMN_TITLE);
-            notesColumnIndex = cursor.getColumnIndex(TaskProvider.COLUMN_NOTES);
-            idColumnIndex = cursor.getColumnIndex(TaskProvider.COLUMN_TASKID);
+            titleColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_TITLE);
+            notesColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_NOTES);
+            idColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_TASKID);
         }
         notifyDataSetChanged();
     }
@@ -146,7 +146,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         context.getContentResolver()
                 .delete(
                         ContentUris.withAppendedId(
-                                TaskProvider.CONTENT_URI, id),
+                                BookProvider.CONTENT_URI, id),
                                 null,null);
     }
 }

@@ -23,10 +23,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.amkelly.bsp.provider.TaskProvider;
-import com.example.amkelly.bsp.activity.TaskEditActivity;
+import com.example.amkelly.bsp.provider.BookProvider;
+import com.example.amkelly.bsp.activity.BookEditActivity;
 import com.example.amkelly.bsp.R;
-import com.example.amkelly.bsp.adapter.TaskListAdapter;
+import com.example.amkelly.bsp.adapter.BookListAdapter;
 import com.example.amkelly.bsp.interfaces.OnEditFinished;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
  * Created by Adam on 04/03/2018.
  */
 
-public class TaskEditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
+public class BookEditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
     static final String TASK_ID = "taskId";
     public static final String DEFAULT_FRAGMENT_TAG = "taskEditFragment";
@@ -56,7 +56,7 @@ public class TaskEditFragment extends Fragment implements LoaderManager.LoaderCa
         Bundle arguments = getArguments();
         if (arguments != null)//This was just arguments - so might need changing back
         {
-            taskId = arguments.getLong(TaskEditActivity.EXTRA_TASKID, 0L);//Same here with arguments
+            taskId = arguments.getLong(BookEditActivity.EXTRA_TASKID, 0L);//Same here with arguments
         }
         if (savedInstanceState != null)
         {
@@ -97,7 +97,7 @@ public class TaskEditFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args)
     {
-        Uri taskUri = ContentUris.withAppendedId(TaskProvider.CONTENT_URI, taskId);
+        Uri taskUri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, taskId);
 
         return new CursorLoader(getActivity(), taskUri, null, null, null, null);
     }
@@ -117,12 +117,12 @@ public class TaskEditFragment extends Fragment implements LoaderManager.LoaderCa
             );
             return;
         }
-        titleText.setText(task.getString(task.getColumnIndexOrThrow(TaskProvider.COLUMN_TITLE)));
-        notesText.setText(task.getString(task.getColumnIndexOrThrow(TaskProvider.COLUMN_NOTES)));
+        titleText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_TITLE)));
+        notesText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_NOTES)));
 
         //Set the image
         Picasso.with(getActivity())
-         .load(TaskListAdapter.getImageUrlForTask(taskId))
+         .load(BookListAdapter.getImageUrlForTask(taskId))
          .into(
          imageView, new Callback() {
         @Override
@@ -160,11 +160,11 @@ public class TaskEditFragment extends Fragment implements LoaderManager.LoaderCa
     {
         //Nothing to do here :)
     }
-    public static TaskEditFragment newInstance(long id)
+    public static BookEditFragment newInstance(long id)
     {
-        TaskEditFragment fragment = new TaskEditFragment();
+        BookEditFragment fragment = new BookEditFragment();
         Bundle args = new Bundle();
-        args.putLong(TaskEditActivity.EXTRA_TASKID, id);
+        args.putLong(BookEditActivity.EXTRA_TASKID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -212,19 +212,19 @@ public class TaskEditFragment extends Fragment implements LoaderManager.LoaderCa
         String notes = notesText.getText().toString();
         ContentValues values = new ContentValues();
         //Setting the values
-        values.put(TaskProvider.COLUMN_TITLE, title);
-        values.put(TaskProvider.COLUMN_NOTES, notes);
+        values.put(BookProvider.COLUMN_TITLE, title);
+        values.put(BookProvider.COLUMN_NOTES, notes);
 
         //The task ID will be 0 when we create a new task else it will be the ID of the task being edited
         if (taskId == 0)
         {
             //Create a new task and set the taskId to the id of the new task
-            Uri itemUri = getActivity().getContentResolver().insert(TaskProvider.CONTENT_URI, values);
+            Uri itemUri = getActivity().getContentResolver().insert(BookProvider.CONTENT_URI, values);
             taskId = ContentUris.parseId(itemUri);
         }else
         {
             //Update the existing task
-            Uri uri = ContentUris.withAppendedId(TaskProvider.CONTENT_URI, taskId);
+            Uri uri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, taskId);
             int count = getActivity().getContentResolver().update(uri, values, null, null);
 
             //If user doesn't edit exactly one entry throw an error

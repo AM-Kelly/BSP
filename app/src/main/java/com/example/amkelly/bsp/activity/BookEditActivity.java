@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.widget.Toolbar;
 
-import com.example.amkelly.bsp.fragment.TaskEditFragment;
+import com.example.amkelly.bsp.fragment.BookEditFragment;
 import com.example.amkelly.bsp.R;
 import com.example.amkelly.bsp.interfaces.OnEditFinished;
 
-public class TaskEditActivity extends Activity implements OnEditFinished
+public class BookEditActivity extends Activity implements OnEditFinished
 {
     public static final String EXTRA_TASKID = "taskId";
 
@@ -19,11 +19,11 @@ public class TaskEditActivity extends Activity implements OnEditFinished
         setContentView(R.layout.activity_task_edit);
         setActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        long id = getIntent().getLongExtra(TaskEditActivity.EXTRA_TASKID,0L);
+        long id = getIntent().getLongExtra(BookEditActivity.EXTRA_TASKID,0L);
 
-        Fragment fragment = TaskEditFragment.newInstance(id);
+        Fragment fragment = BookEditFragment.newInstance(id);
 
-        String fragmentTag = TaskEditFragment.DEFAULT_FRAGMENT_TAG;
+        String fragmentTag = BookEditFragment.DEFAULT_FRAGMENT_TAG;
 
         if (savedInstanceState == null)
             getFragmentManager().beginTransaction().add(
