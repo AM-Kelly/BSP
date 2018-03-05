@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.interfaces.OnEditTask;
@@ -113,6 +114,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     void deleteTask(Context context, long id)
     {
         //Implement a toast
+        //Toast toast = Toast.makeText(getActivity(), "Deleted!", Toast.LENGTH_SHORT).show();
         Log.d("TaskListAdapter", "Deleted!");
     }
 }
