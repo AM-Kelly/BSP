@@ -10,5 +10,6 @@
     <string name="confirm">Save</string>
     <string name="delete_q">Delete?</string>
     <string name="delete">Delete</string>
+    <string name="task_saved_message">Task Saved</string>
 
 </resources>

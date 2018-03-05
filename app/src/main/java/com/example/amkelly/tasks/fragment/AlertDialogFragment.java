@@ -27,7 +27,7 @@ public class AlertDialogFragment extends DialogFragment
                     public void onClick(DialogInterface dialog, int i) {
                         //Perform save action
                         //This will close the task (originally from TaskEditFragment.java
-                        ((OnEditFinished) getActivity()).finishEditingTask();
+                        //((OnEditFinished) getActivity()).finishEditingTask();
                         //Toast creation and show
                         Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
                     }

@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
@@ -16,11 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.amkelly.tasks.activity.TaskEditActivity;
 import com.example.amkelly.tasks.R;
 import com.example.amkelly.tasks.adapter.TaskListAdapter;
 import com.example.amkelly.tasks.interfaces.OnEditFinished;
+import com.example.amkelly.tasks.provider.TaskProvider;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -145,13 +150,45 @@ public class TaskEditFragment extends Fragment
             //save button pressed
             case MENU_SAVE :
                 //Implement a toast to tell the user that the data has been saved
-                //save();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                save();
+                /**FragmentTransaction ft = getFragmentManager().beginTransaction();
                 DialogFragment newFragment = new AlertDialogFragment();
-                newFragment.show(ft, "alertDialog");
-                //((OnEditFinished) getActivity()).finishEditingTask();
+                newFragment.show(ft, "alertDialog");**/
+                ((OnEditFinished) getActivity()).finishEditingTask();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void save()
+    {
+        /**
+         *This will be where changed can be made for more fields
+         **/
+        //put all values the user enter into a ContentValue object
+        //Getting the values
+        String title = titleText.getText().toString();
+        String notes = notesText.getText().toString();
+        ContentValues values = new ContentValues();
+        //Setting the values
+        values.put(TaskProvider.COLUMN_TITLE, title);
+        values.put(TaskProvider.COLUMN_NOTES, notes);
+
+        //The task ID will be 0 when we create a new task else it will be the ID of the task being edited
+        if (taskId == 0)
+        {
+            //Create a new task and set the taskId to the id of the new task
+            Uri itemUri = getActivity().getContentResolver().insert(TaskProvider.CONTENT_URI, values);
+            taskId = ContentUris.parseId(itemUri);
+        }else
+        {
+            //Update the existing task
+            Uri uri = ContentUris.withAppendedId(TaskProvider.CONTENT_URI, taskId);
+            int count = getActivity().getContentResolver().update(uri, values, null, null);
+
+            //If user doesn't edit exactly one entry throw an error
+            if (count != 1)
+                throw new IllegalStateException("Unable to update " + taskId);
+        }
+        Toast.makeText(getActivity(), getString(R.string.task_saved_message), Toast.LENGTH_SHORT).show();
     }
 }
