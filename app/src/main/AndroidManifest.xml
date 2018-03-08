@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.BookListActivity">
+        <!-- This has been changed from .activity.BookListActivity -> .login.LoginAuth -->
+        <activity android:name=".login.LoginAuth">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,8 +33,8 @@
             android:name=".provider.BookProvider"
             android:authorities="com.example.amkelly.bsp.provider.BookProvider"
             android:exported="false" />
-
-        <activity android:name=".login.LoginAuth"></activity>
+        <!-- This has been changed from .login.LoginAuth -> .activity.BookListActivity & Removed empty tag </activity> at the end of the line below.-->
+        <activity android:name=".activity.BookListActivity" />
     </application>
 
 </manifest>
