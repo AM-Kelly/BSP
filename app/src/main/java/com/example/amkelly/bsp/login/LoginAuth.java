@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginAuth extends Activity implements View.OnClickListener{
     private static final String TAG = "EmailPassword";
@@ -109,8 +112,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
         showProgressDialog();
 
         // [START sign_in_with_email]
-        /**TODO: Create another button that will allow for the user to get back to viewing books utilising the function below
-         * TODO: Make this activity the parent of the subsequent activities - so other activities can go back**/
+        /**TODO: Make this activity the parent of the subsequent activities - so other activities can go back**/
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -120,7 +122,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            //Call ToBooks -> This will decide if the user is admin or not
+                            /**Call ToBooks -> This will decide if the user is admin or not*/
                             ToBooks(null);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -248,7 +250,13 @@ public class LoginAuth extends Activity implements View.OnClickListener{
     {
         FirebaseUser user = mAuth.getCurrentUser();
         /** This switch will allow for admin to load into the admin panel and prevent other users from changing entries
-         */
+         *
+         * TODO: Create a connection to a database to get a username then check it against 2nd database
+         * The line below is for including firebase database (not working yet)
+         * Need two database tables = 'x' -> Uname (UID) &  UID -> "Admin"
+         * Look for UDI in the 2nd table if found do THIS
+         * */
+        //adminCheck(null, String.valueOf(user));
         switch (user.getUid())
         {
             /**Admin UID */
@@ -261,5 +269,13 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                 /** Load different activity */
                 /** TODO: Create a new list and edit view for non-admin users. Remove delete from the list function*/
         }
+    }
+    public String adminCheck(DataSnapshot dataSnapshot, String username)
+    {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("bspfirebaseproject");
+        username = dataSnapshot.getValue(String.class);
+        Log.w("Username is: ", username);
+        return username;
     }
 }
