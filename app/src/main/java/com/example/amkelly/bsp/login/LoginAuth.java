@@ -114,7 +114,12 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            /** PUT IN CONNECTION TO MAIN BOOK PAGE HERE */
+                            /** PUT IN CONNECTION TO MAIN BOOK PAGE HERE
+                             * If USERNAME = "ADMIN" Then show 'x' else show 'y'
+                             *
+                             * Could use a Switch Statement
+                             *
+                             * TODO: Create a new list and edit view for non-admin users*/
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
