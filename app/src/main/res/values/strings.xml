@@ -94,4 +94,5 @@
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
 
+    <string name="to_book">Return To Books</string>
 </resources>

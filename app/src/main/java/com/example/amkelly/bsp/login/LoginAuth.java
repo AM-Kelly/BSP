@@ -1,6 +1,7 @@
 package com.example.amkelly.bsp.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,10 +9,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amkelly.bsp.R;
+import com.example.amkelly.bsp.activity.BookEditActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,6 +37,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_auth);
+        findViewById(R.id.booksHolder).setVisibility(View.GONE);
 
         // Views
         mStatusTextView = findViewById(R.id.status);
@@ -105,6 +109,8 @@ public class LoginAuth extends Activity implements View.OnClickListener{
         showProgressDialog();
 
         // [START sign_in_with_email]
+        /**TODO: Create another button that will allow for the user to get back to viewing books utilising the function below
+         * TODO: Make this activity the parent of the subsequent activities - so other activities can go back**/
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -114,12 +120,8 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            /** PUT IN CONNECTION TO MAIN BOOK PAGE HERE
-                             * If USERNAME = "ADMIN" Then show 'x' else show 'y'
-                             *
-                             * Could use a Switch Statement
-                             *
-                             * TODO: Create a new list and edit view for non-admin users*/
+                            //Call ToBooks -> This will decide if the user is admin or not
+                            ToBooks(null);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -207,7 +209,8 @@ public class LoginAuth extends Activity implements View.OnClickListener{
             findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
             findViewById(R.id.email_password_fields).setVisibility(View.GONE);
             findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
-
+            /** This is used to set the button to be visible */
+            findViewById(R.id.booksHolder).setVisibility(View.VISIBLE);
             findViewById(R.id.verify_email_button).setEnabled(!user.isEmailVerified());
         } else {
             mStatusTextView.setText(R.string.signed_out);
@@ -216,6 +219,8 @@ public class LoginAuth extends Activity implements View.OnClickListener{
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.signed_in_buttons).setVisibility(View.GONE);
+            /** This is used to remove the button from visibility */
+            findViewById(R.id.booksHolder).setVisibility(View.GONE);
         }
     }
 
@@ -238,5 +243,23 @@ public class LoginAuth extends Activity implements View.OnClickListener{
     }
     private void hideProgressDialog() {
 
+    }
+    public void ToBooks(View view)
+    {
+        FirebaseUser user = mAuth.getCurrentUser();
+        /** This switch will allow for admin to load into the admin panel and prevent other users from changing entries
+         */
+        switch (user.getUid())
+        {
+            /**Admin UID */
+            case "HcJlRQ3TspgZWpRlg7oFRAt3akN2" :
+                Intent intent = new Intent("android.intent.action.AdminEdit");
+                startActivity(intent);
+                break;
+            /**All other users*/
+            default:
+                /** Load different activity */
+                /** TODO: Create a new list and edit view for non-admin users. Remove delete from the list function*/
+        }
     }
 }

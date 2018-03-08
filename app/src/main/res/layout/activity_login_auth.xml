@@ -41,6 +41,26 @@
             style="@style/ThemeOverlay.MyTextDetail"
             tools:text="Firebase User ID: 123456789abc" />
 
+        <LinearLayout
+            android:id="@+id/booksHolder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <Button
+                android:id="@+id/backToBooks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/to_book"
+                android:onClick="ToBooks"
+                android:theme="@style/ThemeOverlay.MyDarkButton" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 
