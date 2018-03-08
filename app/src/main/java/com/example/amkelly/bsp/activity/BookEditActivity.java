@@ -1,5 +1,4 @@
 package com.example.amkelly.bsp.activity;
-/* TODO: Add Firebase to this project*/
 import android.app.Fragment;
 import android.os.Bundle;
 import android.app.Activity;

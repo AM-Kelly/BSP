@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,18 +19,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme.TransparentActionBar"
             android:name=".activity.BookEditActivity"
             android:label=""
-            android:parentActivityName=".activity.BookListActivity">
+            android:parentActivityName=".activity.BookListActivity"
+            android:theme="@style/AppTheme.TransparentActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.amkelly.bsp.activity.BookListActivity" />
         </activity>
+
         <provider
             android:name=".provider.BookProvider"
             android:authorities="com.example.amkelly.bsp.provider.BookProvider"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity android:name=".login.LoginAuth"></activity>
     </application>
 
 </manifest>
