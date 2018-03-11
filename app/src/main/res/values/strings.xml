@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Books</string>
+    <string name="app_name">BSP</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -11,7 +11,7 @@
     <string name="book_abstract">Abstract</string>
     <string name="book_price">Price</string>
 
-    <string name="menu_insert">Add Book</string>
+    <string name="menu_insert">Add Book</string>H
     <string name="confirm">Save</string>
     <string name="delete_q">Delete?</string>
     <string name="delete">Delete</string>
