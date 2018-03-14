@@ -205,7 +205,10 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
                 /**FragmentTransaction ft = getFragmentManager().beginTransaction();
                 DialogFragment newFragment = new AlertDialogFragment();
                 newFragment.show(ft, "alertDialog");**/
-                ((OnEditFinished) getActivity()).finishEditingTask();
+                /**
+                 * The below line has been moved into the save function to stop the system from closing the page
+                 */
+                //((OnEditFinished) getActivity()).finishEditingTask();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -258,6 +261,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
                 //Create a new task and set the bookId to the id of the new task
                 Uri itemUri = getActivity().getContentResolver().insert(BookProvider.CONTENT_URI, values);
                 bookId = ContentUris.parseId(itemUri);
+                ((OnEditFinished) getActivity()).finishEditingTask();
             }else
             {
                 //Update the existing task
