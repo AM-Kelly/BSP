@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginAuth extends Activity implements View.OnClickListener{
     private static final String TAG = "EmailPassword";
 
+    public static Boolean admin;//This is being used to authenticate users
     private TextView mStatusTextView;
     private TextView mDetailTextView;
     private EditText mEmailField;
@@ -261,21 +262,25 @@ public class LoginAuth extends Activity implements View.OnClickListener{
         {
             /**Admin UID */
             case "HcJlRQ3TspgZWpRlg7oFRAt3akN2" :
+                admin = true;
                 Intent intent = new Intent("android.intent.action.AdminEdit");
                 startActivity(intent);
                 break;
             /**All other users*/
             default:
-                /** Load different activity */
-                /** TODO: Create a new list and edit view for non-admin users. Remove delete from the list function*/
+                /** Disable the edit fields within the edit fragment */
+                /** TODO: Create a new list view for non-admin users. AND disable the edit fields*/
+                findViewById(R.id.book_title).setEnabled(false);
+                findViewById(R.id.book_author).setEnabled(false);
+                findViewById(R.id.book_isbn).setEnabled(false);
+                findViewById(R.id.book_abstract).setEnabled(false);
+                findViewById(R.id.book_price).setEnabled(false);
+                break;
         }
     }
-    public String adminCheck(DataSnapshot dataSnapshot, String username)
+    public static Boolean adminCheck()
     {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("bspfirebaseproject");
-        username = dataSnapshot.getValue(String.class);
-        Log.w("Username is: ", username);
-        return username;
+        //This function will return the check variable to another function allowing for the delete function to stop.
+        return admin;
     }
 }

@@ -200,7 +200,6 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         {
             //save button pressed
             case MENU_SAVE :
-                //Implement a toast to tell the user that the data has been saved
                 save();
                 /**FragmentTransaction ft = getFragmentManager().beginTransaction();
                 DialogFragment newFragment = new AlertDialogFragment();

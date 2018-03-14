@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.amkelly.bsp.login.LoginAuth;
 import com.example.amkelly.bsp.provider.BookProvider;
 import com.example.amkelly.bsp.R;
 import com.example.amkelly.bsp.interfaces.OnEditTask;
@@ -83,6 +84,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public static String getImageUrlForTask(long taskId)
     {
         /**Image URL here - will be replaced with glide? Based on ISBN*/
+        //TODO: This section will be where the Google Books API is used - TASKID -> ISBN
         return "http://lorempixel.com/600/400/cats/?fakeId=" + taskId;
     }
 
@@ -114,20 +116,27 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                new AlertDialog.Builder(context)
-                        .setTitle(R.string.delete_q)
-                        .setMessage(viewHolder.bookTitleView.getText())
-                        .setCancelable(true)
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(
-                                R.string.delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int i) {
+                /** Could place an IF statement around this block to prevent deletion?
+                 * if (user = "x") then allow delete
+                 * else do not**/
+                boolean admin = LoginAuth.adminCheck();
+                if (admin == true)
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.delete_q)
+                            .setMessage(viewHolder.bookTitleView.getText())
+                            .setCancelable(true)
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(
+                                    R.string.delete, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
 
-                                        deleteTask(context, id);
-                                    }
-                                })
-                        .show();
+                                            deleteTask(context, id);
+                                        }
+                                    })
+                            .show();
+                }
                 return true;
             }
         });
