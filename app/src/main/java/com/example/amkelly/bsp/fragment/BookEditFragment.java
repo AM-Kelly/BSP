@@ -233,6 +233,8 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         values.put(BookProvider.COLUMN_BOOKABSTRACT, bookAbstract);
         values.put(BookProvider.COLUMN_BOOKPRICE, bookPrice);
 
+
+
         if (bookTitle.isEmpty())
         {
             Toast.makeText(getActivity(), "Please enter the books title", Toast.LENGTH_SHORT).show();
@@ -241,9 +243,9 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         {
             Toast.makeText(getActivity(), "Please enter the books author", Toast.LENGTH_SHORT).show();
         }
-        else if (bookIsbn.isEmpty())
+        else if (bookIsbn.isEmpty() || (bookIsbn.length() != 10 && bookIsbn.length() != 13) )
         {
-            Toast.makeText(getActivity(), "Please enter the books ISBN", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please enter the books ISBN ensuring that it is the correct length", Toast.LENGTH_SHORT).show();
         }
         else if (bookAbstract.isEmpty())
         {
@@ -267,7 +269,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
                 //Update the existing task
                 Uri uri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
                 int count = getActivity().getContentResolver().update(uri, values, null, null);
-
+                ((OnEditFinished) getActivity()).finishEditingTask();
                 //If user doesn't edit exactly one entry throw an error
                 if (count != 1)
                     throw new IllegalStateException("Unable to update " + bookId);

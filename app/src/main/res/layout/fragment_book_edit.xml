@@ -43,6 +43,7 @@
             android:layout_alignStart="@+id/book_author"
             android:layout_below="@+id/book_author"
             android:hint="@string/book_isbn"
+            android:inputType="number"
             android:textColor="@color/text_color" />
 
         <EditText
