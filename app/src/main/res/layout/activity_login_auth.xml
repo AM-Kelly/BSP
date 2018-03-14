@@ -19,9 +19,9 @@
             android:id="@+id/icon"
             style="@style/ThemeOverlay.FirebaseIcon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="179dp"
             android:contentDescription="@string/desc_firebase_lockup"
-            android:src="@drawable/bsp"/>
+            android:src="@drawable/bsp" />
             <!--android:src="@drawable/firebase_lockup_400"-->
 
         <TextView
@@ -86,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_color" />
 
             <EditText
                 android:id="@+id/field_password"
@@ -94,7 +95,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/hint_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/text_color" />
         </LinearLayout>
 
         <LinearLayout

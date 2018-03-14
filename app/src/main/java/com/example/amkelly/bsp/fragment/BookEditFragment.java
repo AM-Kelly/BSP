@@ -230,22 +230,46 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         values.put(BookProvider.COLUMN_BOOKABSTRACT, bookAbstract);
         values.put(BookProvider.COLUMN_BOOKPRICE, bookPrice);
 
-        //The task ID will be 0 when we create a new task else it will be the ID of the task being edited
-        if (bookId == 0)
+        if (bookTitle.isEmpty())
         {
-            //Create a new task and set the bookId to the id of the new task
-            Uri itemUri = getActivity().getContentResolver().insert(BookProvider.CONTENT_URI, values);
-            bookId = ContentUris.parseId(itemUri);
-        }else
-        {
-            //Update the existing task
-            Uri uri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
-            int count = getActivity().getContentResolver().update(uri, values, null, null);
-
-            //If user doesn't edit exactly one entry throw an error
-            if (count != 1)
-                throw new IllegalStateException("Unable to update " + bookId);
+            Toast.makeText(getActivity(), "Please enter the books title", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getActivity(), getString(R.string.book_saved_message), Toast.LENGTH_SHORT).show();
+        else if (bookAuthor.isEmpty())
+        {
+            Toast.makeText(getActivity(), "Please enter the books author", Toast.LENGTH_SHORT).show();
+        }
+        else if (bookIsbn.isEmpty())
+        {
+            Toast.makeText(getActivity(), "Please enter the books ISBN", Toast.LENGTH_SHORT).show();
+        }
+        else if (bookAbstract.isEmpty())
+        {
+            Toast.makeText(getActivity(), "Please enter the books abstract", Toast.LENGTH_SHORT).show();
+        }
+        else if (bookPrice.isEmpty())
+        {
+            Toast.makeText(getActivity(), "Please enter the books price", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            //The task ID will be 0 when we create a new task else it will be the ID of the task being edited
+            if (bookId == 0)
+            {
+                //Create a new task and set the bookId to the id of the new task
+                Uri itemUri = getActivity().getContentResolver().insert(BookProvider.CONTENT_URI, values);
+                bookId = ContentUris.parseId(itemUri);
+            }else
+            {
+                //Update the existing task
+                Uri uri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
+                int count = getActivity().getContentResolver().update(uri, values, null, null);
+
+                //If user doesn't edit exactly one entry throw an error
+                if (count != 1)
+                    throw new IllegalStateException("Unable to update " + bookId);
+            }
+            Toast.makeText(getActivity(), getString(R.string.book_saved_message), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
