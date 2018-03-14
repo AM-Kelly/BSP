@@ -263,11 +263,12 @@ public class LoginAuth extends Activity implements View.OnClickListener{
             /**Admin UID */
             case "HcJlRQ3TspgZWpRlg7oFRAt3akN2" :
                 admin = true;
-                Intent intent = new Intent("android.intent.action.AdminEdit");
-                startActivity(intent);
+                Intent intentAdmin = new Intent("android.intent.action.AdminEdit");
+                startActivity(intentAdmin);
                 break;
             /**All other users*/
             default:
+                admin = false;
                 /** Disable the edit fields within the edit fragment */
                 /** TODO: Create a new list view for non-admin users. AND disable the edit fields*/
                 findViewById(R.id.book_title).setEnabled(false);
@@ -275,6 +276,8 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                 findViewById(R.id.book_isbn).setEnabled(false);
                 findViewById(R.id.book_abstract).setEnabled(false);
                 findViewById(R.id.book_price).setEnabled(false);
+                Intent intent = new Intent("android.intent.action.AdminEdit");
+                startActivity(intent);
                 break;
         }
     }
