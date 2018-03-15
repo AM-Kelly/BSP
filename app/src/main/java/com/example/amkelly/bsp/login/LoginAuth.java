@@ -249,37 +249,19 @@ public class LoginAuth extends Activity implements View.OnClickListener{
     }
     public void ToBooks(View view)
     {
+        /** This function will check if the user is an admin or not.
+         * If the user is an admin, all functionality will be available
+         * If the user is NOT an admin, limited functionality will be given -> Removing + button, delete and edit texts**/
         FirebaseUser user = mAuth.getCurrentUser();
-        /** This switch will allow for admin to load into the admin panel and prevent other users from changing entries
-         *
-         * TODO: Create a connection to a database to get a username then check it against 2nd database
-         * The line below is for including firebase database (not working yet)
-         * Need two database tables = 'x' -> Uname (UID) &  UID -> "Admin"
-         * Look for UDI in the 2nd table if found do THIS
-         * */
-        //adminCheck(null, String.valueOf(user));
-        switch (user.getUid())
+        if (user.getUid() == "HcJlRQ3TspgZWpRlg7oFRAt3akN2")
         {
-            /**Admin UID */
-            case "HcJlRQ3TspgZWpRlg7oFRAt3akN2" :
-                admin = true;
-                Intent intentAdmin = new Intent("android.intent.action.AdminEdit");
-                startActivity(intentAdmin);
-                break;
-            /**All other users*/
-            default:
-                admin = false;
-                /** Disable the edit fields within the edit fragment */
-                /** TODO: Create a new list view for non-admin users. AND disable the edit fields*/
-                findViewById(R.id.book_title).setEnabled(false);
-                findViewById(R.id.book_author).setEnabled(false);
-                findViewById(R.id.book_isbn).setEnabled(false);
-                findViewById(R.id.book_abstract).setEnabled(false);
-                findViewById(R.id.book_price).setEnabled(false);
-                Intent intent = new Intent("android.intent.action.AdminEdit");
-                startActivity(intent);
-                break;
+            admin = true;
+        }else
+        {
+            admin = false;
         }
+        Intent intent = new Intent("android.intent.action.AdminEdit");
+        startActivity(intent);
     }
     public static Boolean adminCheck()
     {

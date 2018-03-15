@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.amkelly.bsp.login.LoginAuth;
 import com.example.amkelly.bsp.provider.BookProvider;
 import com.example.amkelly.bsp.activity.BookEditActivity;
 import com.example.amkelly.bsp.R;
@@ -89,6 +90,25 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         bookAbstractText = (EditText) v.findViewById(R.id.book_abstract);
         bookPriceText = (EditText) v.findViewById(R.id.book_price);
         bookImageView = (ImageView) v.findViewById(R.id.book_image);
+        boolean admin = LoginAuth.adminCheck();
+        if (admin == false)
+        {
+            /** Disable the edit fields within the edit fragment */
+            /** TODO: Create a new list view for non-admin users. AND disable the edit fields*/
+            //This might have to go into the same view -> and call admin check again -> then if statement.
+            /**bookTitleText.setEnabled(false);
+            bookAuthorText.setEnabled(false);
+            bookIsbnText.setEnabled(false);
+            bookAbstractText.setEnabled(false);
+            bookPriceText.setEnabled(false);**/
+        }else
+        {
+            /**bookTitleText.setEnabled(true);
+            bookAuthorText.setEnabled(true);
+            bookIsbnText.setEnabled(true);
+            bookAbstractText.setEnabled(true);
+            bookPriceText.setEnabled(true);**/
+        }
 
         if (bookId == 0)
         {
