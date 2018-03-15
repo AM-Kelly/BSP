@@ -59,9 +59,9 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
-        if (arguments != null)//This was just arguments - so might need changing back
+        if (arguments != null)
         {
-            bookId = arguments.getLong(BookEditActivity.EXTRA_BOOKID, 0L);//Same here with arguments
+            bookId = arguments.getLong(BookEditActivity.EXTRA_BOOKID, 0L);
         }
         if (savedInstanceState != null)
         {
@@ -125,9 +125,9 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     }
     //The below method is called when the loader has finished loading it's data
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor task)
+    public void onLoadFinished(Loader<Cursor> loader, Cursor book)
     {
-        if (task.getCount() == 0)
+        if (book.getCount() == 0)
         {
             getActivity().runOnUiThread(
                     new Runnable() {
@@ -139,15 +139,18 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
             );
             return;
         }
-        bookTitleText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKTITLE)));
-        bookAuthorText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKAUTHOR)));
-        bookIsbnText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKISBN)));
-        bookAbstractText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKABSTRACT)));
-        bookPriceText.setText(task.getString(task.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKPRICE)));
-
+        bookTitleText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKTITLE)));
+        bookAuthorText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKAUTHOR)));
+        bookIsbnText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKISBN)));
+        bookAbstractText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKABSTRACT)));
+        bookPriceText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKPRICE)));
+        //The code below should generate an image for each ISBN
+        String baseurl = BookListAdapter.getImageUrlForTask(bookId);
+        String ISBN = book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKISBN));
+        String endurlsize = "-M.jpg";
         //Set the image
         Picasso.with(getActivity())
-         .load(BookListAdapter.getImageUrlForTask(bookId))
+         .load(baseurl + ISBN + endurlsize)
          .into(
                  bookImageView, new Callback() {
         @Override

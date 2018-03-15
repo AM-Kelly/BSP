@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.amkelly.bsp.fragment.BookEditFragment;
 import com.example.amkelly.bsp.login.LoginAuth;
 import com.example.amkelly.bsp.provider.BookProvider;
 import com.example.amkelly.bsp.R;
@@ -85,7 +86,9 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     {
         /**Image URL here - will be replaced with glide? Based on ISBN*/
         //TODO: This section will be where the Google Books API is used - TASKID -> ISBN
-        return "http://lorempixel.com/600/400/cats/?fakeId=" + taskId;
+        //return "http://lorempixel.com/600/400/cats/?fakeId=" + taskId;
+        //return  "http://books.google.com/books/content?id=oGGMDQAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api";
+        return "http://covers.openlibrary.org/b/isbn/";
     }
 
     @Override
@@ -100,9 +103,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         viewHolder.bookTitleView.setText(cursor.getString(bookTitleColumnIndex));
         viewHolder.bookAbstractView.setText(cursor.getString(bookAbstractColumnIndex));
 
+        //Create string components
+        String baseurl = BookListAdapter.getImageUrlForTask(id);
+        String ISBN = cursor.getString(bookIsbnColumnIndex);
+        String endurlsize = "-M.jpg";
+
         //Set image thubmnail
         Picasso.with(context)
-                .load(getImageUrlForTask(id))
+                .load(baseurl + ISBN + endurlsize)
                 .into(viewHolder.bookImageView);
 
         //Setting the click action
