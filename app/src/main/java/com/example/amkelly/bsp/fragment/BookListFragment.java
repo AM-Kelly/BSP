@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.example.amkelly.bsp.R;
 import com.example.amkelly.bsp.adapter.BookListAdapter;
 import com.example.amkelly.bsp.interfaces.OnEditTask;
+import com.example.amkelly.bsp.login.LoginAuth;
 import com.example.amkelly.bsp.provider.BookProvider;
 
 /**
@@ -28,6 +29,7 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
 
     RecyclerView recyclerView;
     BookListAdapter adapter;
+    boolean admin = LoginAuth.adminCheck();
 
     public BookListFragment() {
         // Required empty public constructor
@@ -64,7 +66,13 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_list, menu);
+        if (admin)
+        {
+            inflater.inflate(R.menu.menu_list, menu);
+        }else
+        {
+            //Nothing to see here
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

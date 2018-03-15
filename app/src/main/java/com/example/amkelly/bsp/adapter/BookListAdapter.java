@@ -120,7 +120,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
                  * if (user = "x") then allow delete
                  * else do not**/
                 boolean admin = LoginAuth.adminCheck();
-                if (admin == true)
+                if (admin)
                 {
                     new AlertDialog.Builder(context)
                             .setTitle(R.string.delete_q)

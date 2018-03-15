@@ -39,6 +39,7 @@ import com.squareup.picasso.Picasso;
 public class BookEditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
     static final String BOOK_ID = "bookId";
+    boolean admin = LoginAuth.adminCheck();
     public static final String DEFAULT_FRAGMENT_TAG = "bookEditFragment";
     private static final int MENU_SAVE = 1;
 
@@ -90,24 +91,19 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         bookAbstractText = (EditText) v.findViewById(R.id.book_abstract);
         bookPriceText = (EditText) v.findViewById(R.id.book_price);
         bookImageView = (ImageView) v.findViewById(R.id.book_image);
-        boolean admin = LoginAuth.adminCheck();
-        if (admin == false)
+
+        if (!admin)
         {
-            /** Disable the edit fields within the edit fragment */
-            /** TODO: Create a new list view for non-admin users. AND disable the edit fields*/
-            //This might have to go into the same view -> and call admin check again -> then if statement.
-            /**bookTitleText.setEnabled(false);
+            /** Disable the edit fields within the edit fragment for non-admins*/
+            bookTitleText.setEnabled(false);
             bookAuthorText.setEnabled(false);
             bookIsbnText.setEnabled(false);
             bookAbstractText.setEnabled(false);
-            bookPriceText.setEnabled(false);**/
+            bookPriceText.setEnabled(false);
+
         }else
         {
-            /**bookTitleText.setEnabled(true);
-            bookAuthorText.setEnabled(true);
-            bookIsbnText.setEnabled(true);
-            bookAbstractText.setEnabled(true);
-            bookPriceText.setEnabled(true);**/
+            //Nothing to see here
         }
 
         if (bookId == 0)
@@ -209,8 +205,15 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
+        if (!admin)
+        {
+            //Nothing to see here
+        }
+        else
+        {
+            menu.add(0, MENU_SAVE, 0, R.string.confirm).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
 
-        menu.add(0, MENU_SAVE, 0, R.string.confirm).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override

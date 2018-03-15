@@ -66,6 +66,7 @@
             android:layout_marginEnd="@dimen/gutter"
             android:layout_marginStart="@dimen/gutter"
             android:hint="@string/book_price"
+            android:inputType="numberDecimal"
             android:textColor="@color/text_color" />
     </RelativeLayout>
 </ScrollView>
