@@ -253,7 +253,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
          * If the user is an admin, all functionality will be available
          * If the user is NOT an admin, limited functionality will be given -> Removing + button, delete and edit texts**/
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user.getUid().equals("HcJlRQ3TspgZWpRlg7oFRAt3akN2"))
+        if (user.getUid().equals("HcJlRQ3TspgZWpRlg7oFRAt3akN2") || user.getUid().equals("kwQlX2j27CM4ZWjfA7E8Myk90Dp2"))
         {
             admin = true;
         }else
