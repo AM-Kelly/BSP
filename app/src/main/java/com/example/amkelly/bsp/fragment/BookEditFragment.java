@@ -147,11 +147,11 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         //The code below should generate an image for each ISBN
         String baseurl = BookListAdapter.getImageUrlForTask(bookId);
         String ISBN = book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKISBN));
-        String endurlsize = "-M.jpg";
+        String endurlsize = "-L.jpg";
         //Set the image
         Picasso.with(getActivity())
-         .load(baseurl + ISBN + endurlsize)
-         .into(
+            .load(baseurl + ISBN + endurlsize)
+            .into(
                  bookImageView, new Callback() {
         @Override
         public void onSuccess() {

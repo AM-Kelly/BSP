@@ -6,7 +6,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:id="@+id/book_image"
@@ -24,6 +25,8 @@
             android:layout_marginEnd="@dimen/gutter"
             android:layout_marginStart="@dimen/gutter"
             android:hint="@string/book_title"
+            android:singleLine="true"
+            android:inputType="textCapSentences"
             android:textColor="@color/text_color" />
 
         <EditText
@@ -34,6 +37,8 @@
             android:layout_marginEnd="@dimen/gutter"
             android:layout_marginStart="@dimen/gutter"
             android:hint="@string/book_author"
+            android:inputType="textCapSentences"
+            android:singleLine="true"
             android:textColor="@color/text_color" />
 
         <EditText
@@ -44,6 +49,7 @@
             android:layout_below="@+id/book_author"
             android:hint="@string/book_isbn"
             android:inputType="number"
+            android:singleLine="true"
             android:textColor="@color/text_color" />
 
         <EditText
@@ -55,6 +61,8 @@
             android:layout_marginEnd="@dimen/gutter"
             android:gravity="top"
             android:hint="@string/book_abstract"
+            android:inputType="textCapSentences"
+            android:singleLine="true"
             android:textColor="@color/text_color" />
             <!--android:minLines="3"-->
 
@@ -67,6 +75,7 @@
             android:layout_marginStart="@dimen/gutter"
             android:hint="@string/book_price"
             android:inputType="numberDecimal"
+            android:singleLine="true"
             android:textColor="@color/text_color" />
     </RelativeLayout>
 </ScrollView>

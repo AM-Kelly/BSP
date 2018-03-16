@@ -84,10 +84,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
 
     public static String getImageUrlForTask(long taskId)
     {
-        /**Image URL here - will be replaced with glide? Based on ISBN*/
-        //TODO: This section will be where the Google Books API is used - TASKID -> ISBN
         //return "http://lorempixel.com/600/400/cats/?fakeId=" + taskId;
-        //return  "http://books.google.com/books/content?id=oGGMDQAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api";
         return "http://covers.openlibrary.org/b/isbn/";
     }
 
@@ -106,7 +103,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         //Create string components
         String baseurl = BookListAdapter.getImageUrlForTask(id);
         String ISBN = cursor.getString(bookIsbnColumnIndex);
-        String endurlsize = "-M.jpg";
+        String endurlsize = "-L.jpg";
 
         //Set image thubmnail
         Picasso.with(context)
@@ -124,9 +121,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                /** Could place an IF statement around this block to prevent deletion?
-                 * if (user = "x") then allow delete
-                 * else do not**/
+                /** The below function will check if the user is an admin or not**/
                 boolean admin = LoginAuth.adminCheck();
                 if (admin)
                 {

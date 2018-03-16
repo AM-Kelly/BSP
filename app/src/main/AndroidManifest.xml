@@ -22,6 +22,7 @@
         <activity
             android:name=".activity.BookEditActivity"
             android:label=""
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:parentActivityName=".activity.BookListActivity"
             android:theme="@style/AppTheme.TransparentActionBar">
             <meta-data
