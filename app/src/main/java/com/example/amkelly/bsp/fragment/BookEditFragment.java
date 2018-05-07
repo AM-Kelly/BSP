@@ -84,14 +84,15 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
 
         //Declaration has to go first (before picasso)
         rootView = v.getRootView();
-        //The redundant (DATA) could be removed completely?
-        bookTitleText = (EditText) v.findViewById(R.id.book_title);
-        bookAuthorText = (EditText) v.findViewById(R.id.book_author);
-        bookIsbnText = (EditText) v.findViewById(R.id.book_isbn);
-        bookAbstractText = (EditText) v.findViewById(R.id.book_abstract);
-        bookPriceText = (EditText) v.findViewById(R.id.book_price);
-        bookImageView = (ImageView) v.findViewById(R.id.book_image);
+        //Setting the view variables
+        bookTitleText = v.findViewById(R.id.book_title);
+        bookAuthorText = v.findViewById(R.id.book_author);
+        bookIsbnText = v.findViewById(R.id.book_isbn);
+        bookAbstractText = v.findViewById(R.id.book_abstract);
+        bookPriceText = v.findViewById(R.id.book_price);
+        bookImageView = v.findViewById(R.id.book_image);
 
+        //If admin privileges are not attained the edit fields will be disabled
         if (!admin)
         {
             /** Disable the edit fields within the edit fragment for non-admins*/
@@ -119,9 +120,10 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args)
     {
-        Uri taskUri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
+        //set the book uri
+        Uri bookUri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
 
-        return new CursorLoader(getActivity(), taskUri, null, null, null, null);
+        return new CursorLoader(getActivity(), bookUri, null, null, null, null);
     }
     //The below method is called when the loader has finished loading it's data
     @Override
@@ -133,12 +135,13 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
                     new Runnable() {
                         @Override
                         public void run() {
-                            ((OnEditFinished) getActivity()).finishEditingTask();
+                            ((OnEditFinished) getActivity()).finishEditingBook();
                         }
                     }
             );
             return;
         }
+        //the below will set the text for each field within the edit book activity (including the image)
         bookTitleText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKTITLE)));
         bookAuthorText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKAUTHOR)));
         bookIsbnText.setText(book.getString(book.getColumnIndexOrThrow(BookProvider.COLUMN_BOOKISBN)));
@@ -160,7 +163,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         if (activity == null)
         return;
 
-        //Set the colours of the activity based on the colours of the image
+        //Set the colours of the activity based on an assesment of the colours within the image
         Bitmap bitmap = ((BitmapDrawable) bookImageView
         .getDrawable())
         .getBitmap();
@@ -176,11 +179,9 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         @Override
         public void onError() {
         //do nothing as the defaults will be used
-
         }
         }
          );
-         //.into(bookImageView);
 
     }
     @Override
@@ -190,6 +191,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     }
     public static BookEditFragment newInstance(long id)
     {
+        //Create a new instance of the book edit fragment
         BookEditFragment fragment = new BookEditFragment();
         Bundle args = new Bundle();
         args.putLong(BookEditActivity.EXTRA_BOOKID, id);
@@ -201,6 +203,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //Create the options menu once the activity is created
         setHasOptionsMenu(true);
     }
 
@@ -208,11 +211,12 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
+        //Check if the user is admin, if not don't show menu
         if (!admin)
         {
             //Nothing to see here
         }
-        else
+        else//if the user is admin then show the menu
         {
             menu.add(0, MENU_SAVE, 0, R.string.confirm).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
@@ -224,16 +228,9 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
     {
         switch (item.getItemId())
         {
-            //save button pressed
+            //save button pressed --> start the save function
             case MENU_SAVE :
                 save();
-                /**FragmentTransaction ft = getFragmentManager().beginTransaction();
-                DialogFragment newFragment = new AlertDialogFragment();
-                newFragment.show(ft, "alertDialog");**/
-                /**
-                 * The below line has been moved into the save function to stop the system from closing the page
-                 */
-                //((OnEditFinished) getActivity()).finishEditingTask();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -259,7 +256,7 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
         values.put(BookProvider.COLUMN_BOOKPRICE, bookPrice);
 
 
-
+        //Error checking
         if (bookTitle.isEmpty())
         {
             Toast.makeText(getActivity(), "Please enter the books title", Toast.LENGTH_SHORT).show();
@@ -288,13 +285,13 @@ public class BookEditFragment extends Fragment implements LoaderManager.LoaderCa
                 //Create a new task and set the bookId to the id of the new task
                 Uri itemUri = getActivity().getContentResolver().insert(BookProvider.CONTENT_URI, values);
                 bookId = ContentUris.parseId(itemUri);
-                ((OnEditFinished) getActivity()).finishEditingTask();
+                ((OnEditFinished) getActivity()).finishEditingBook();
             }else
             {
                 //Update the existing task
                 Uri uri = ContentUris.withAppendedId(BookProvider.CONTENT_URI, bookId);
                 int count = getActivity().getContentResolver().update(uri, values, null, null);
-                ((OnEditFinished) getActivity()).finishEditingTask();
+                ((OnEditFinished) getActivity()).finishEditingBook();
                 //If user doesn't edit exactly one entry throw an error
                 if (count != 1)
                     throw new IllegalStateException("Unable to update " + bookId);

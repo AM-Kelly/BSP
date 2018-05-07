@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.amkelly.bsp.R;
 import com.example.amkelly.bsp.adapter.BookListAdapter;
-import com.example.amkelly.bsp.interfaces.OnEditTask;
+import com.example.amkelly.bsp.interfaces.OnEditBook;
 import com.example.amkelly.bsp.login.LoginAuth;
 import com.example.amkelly.bsp.provider.BookProvider;
 
@@ -44,11 +44,12 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().initLoader(0, null, this);
     }
 
+    //Creating a new recycler view
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_book_list, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
+        recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -61,7 +62,7 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
         setHasOptionsMenu(true);
     }
 
-    //This section could be useful for the admin functions (add a new book and maybe delete?)
+    //Menu inflater function will only work if the user is admin
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
@@ -74,27 +75,31 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
             //Nothing to see here
         }
     }
+    //Activity creation for edit book
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
             case R.id.menu_insert:
-                ((OnEditTask) getActivity()).editTask(0);
+                ((OnEditBook) getActivity()).editBook(0);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+    //Cursor loader to get content URI
     @Override
     public Loader<Cursor> onCreateLoader(int ignored, Bundle args)
     {
         return new CursorLoader(getActivity(), BookProvider.CONTENT_URI, null, null, null, null);
     }
+    //Once the Nth column has been loaded swap the cursor to the next column
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)
     {
         adapter.swapCursor(cursor);
     }
+    //Once a whole record has been loaded reset, with a different ID
     @Override
     public void onLoaderReset(Loader<Cursor> loader)
     {

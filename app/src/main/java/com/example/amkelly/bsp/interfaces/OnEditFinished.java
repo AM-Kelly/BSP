@@ -6,5 +6,5 @@ package com.example.amkelly.bsp.interfaces;
 
 public interface OnEditFinished {
     /** Called when the user has finished editing a task **/
-    public void finishEditingTask();
+    public void finishEditingBook();
 }

@@ -13,11 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.amkelly.bsp.fragment.BookEditFragment;
 import com.example.amkelly.bsp.login.LoginAuth;
 import com.example.amkelly.bsp.provider.BookProvider;
 import com.example.amkelly.bsp.R;
-import com.example.amkelly.bsp.interfaces.OnEditTask;
+import com.example.amkelly.bsp.interfaces.OnEditBook;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -37,9 +36,9 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public void swapCursor(Cursor c)
     {
         cursor = c;
-        if (cursor!=null)
+        if (cursor!=null)//if the cursor is not empty
         {
-            cursor.moveToFirst();
+            cursor.moveToFirst();// Move to first record
             bookPriceColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKPRICE);
             bookAbstractColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKABSTRACT);
             bookIsbnColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKISBN);
@@ -47,7 +46,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
             bookTitleColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKTITLE);
             bookIdColumnIndex = cursor.getColumnIndex(BookProvider.COLUMN_BOOKID);
         }
-        notifyDataSetChanged();
+        notifyDataSetChanged();//calling the datasetchanged function
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int i)
@@ -62,7 +61,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public int getItemCount()
     {
         return cursor!=null ? cursor.getCount() : 0;
-    }
+    }//Get the number of items within the database
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -75,32 +74,31 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         {
             super(card);
             cardView = card;
-            /**The code below is for the card view -> requires modifying*/
-            bookTitleView = (TextView)card.findViewById(R.id.text1);
-            bookAbstractView = (TextView)card.findViewById(R.id.text2);
-            bookImageView = (ImageView)card.findViewById(R.id.image);
+            /**The code below is for the card view, it defines the card view*/
+            bookTitleView = card.findViewById(R.id.text1);
+            bookAbstractView = card.findViewById(R.id.text2);
+            bookImageView = card.findViewById(R.id.image);
         }
     }
 
     public static String getImageUrlForTask(long taskId)
     {
-        //return "http://lorempixel.com/600/400/cats/?fakeId=" + taskId;
-        return "http://covers.openlibrary.org/b/isbn/";
+        return "http://covers.openlibrary.org/b/isbn/";//This will enable the program to get a image (of a book) from a internet database
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i)
     {
-        final Context context = viewHolder.bookTitleView.getContext();
-        final long id = getItemId(i);
+        final Context context = viewHolder.bookTitleView.getContext();//Getting references for all items of the activity
+        final long id = getItemId(i);//Get the item ID
 
-        //set the text of the card
-        /** This code is also for the card -> requires modifying */
-        cursor.moveToPosition(i);
-        viewHolder.bookTitleView.setText(cursor.getString(bookTitleColumnIndex));
-        viewHolder.bookAbstractView.setText(cursor.getString(bookAbstractColumnIndex));
+        /** This code is also for the card - sets the text for the card (continues from the definitions above)*/
+        cursor.moveToPosition(i);//Move to the position gained from getItemId (The ID)
+        viewHolder.bookTitleView.setText(cursor.getString(bookTitleColumnIndex));//Set the text to the title of the book
+        viewHolder.bookAbstractView.setText(cursor.getString(bookAbstractColumnIndex));//Set the text to the abstract of the book
 
         //Create string components
+        /** The below will allow for the application to concatenate the URL and isbn together to get an image for the ISBN**/
         String baseurl = BookListAdapter.getImageUrlForTask(id);
         String ISBN = cursor.getString(bookIsbnColumnIndex);
         String endurlsize = "-L.jpg";
@@ -114,7 +112,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((OnEditTask) context).editTask(id);
+                ((OnEditBook) context).editBook(id);
             }
         });
         //Set the long press action
@@ -123,8 +121,8 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
             public boolean onLongClick(View view) {
                 /** The below function will check if the user is an admin or not**/
                 boolean admin = LoginAuth.adminCheck();
-                if (admin)
-                {
+                if (admin)/** once checks have been performed and the user is known to have admin rights delete will be available*/
+                {//The below will build a dialog box to check that user does want to delete the current selected book
                     new AlertDialog.Builder(context)
                             .setTitle(R.string.delete_q)
                             .setMessage(viewHolder.bookTitleView.getText())
@@ -147,15 +145,16 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     @Override
     public long getItemId(int position)
     {
-        cursor.moveToPosition(position);
+        cursor.moveToPosition(position);//Move the cursor to the correct position (ID)
         return cursor.getLong(bookIdColumnIndex);
     }
+    //The function below enables deleting (a book from the database)
     void deleteTask(Context context, long id)
     {
         context.getContentResolver()
                 .delete(
                         ContentUris.withAppendedId(
-                                BookProvider.CONTENT_URI, id),
+                                BookProvider.CONTENT_URI, id),//Delete the record of the current ID
                                 null,null);
     }
 }

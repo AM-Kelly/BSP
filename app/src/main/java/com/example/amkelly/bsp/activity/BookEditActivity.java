@@ -18,13 +18,13 @@ public class BookEditActivity extends Activity implements OnEditFinished
         setContentView(R.layout.activity_book_edit);
         setActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        long id = getIntent().getLongExtra(BookEditActivity.EXTRA_BOOKID,0L);
+        long id = getIntent().getLongExtra(BookEditActivity.EXTRA_BOOKID,0L);//Gets the value of the pressed ID
 
-        Fragment fragment = BookEditFragment.newInstance(id);
+        Fragment fragment = BookEditFragment.newInstance(id);//Will start a new fragment using the ID that was pressed.
 
-        String fragmentTag = BookEditFragment.DEFAULT_FRAGMENT_TAG;
+        String fragmentTag = BookEditFragment.DEFAULT_FRAGMENT_TAG;//Sets the fragment tag of the new instance
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null)//Checks if the instance of a particular fragement (by ID) has been saved, if so load the fragment
             getFragmentManager().beginTransaction().add(
                     R.id.container,
                     fragment,
@@ -32,9 +32,9 @@ public class BookEditActivity extends Activity implements OnEditFinished
     }
 
     @Override
-    public void finishEditingTask()
+    public void finishEditingBook()
     {
-        finish();
+        finish();//If editing has finished end the editing book fragment
     }
 
 }

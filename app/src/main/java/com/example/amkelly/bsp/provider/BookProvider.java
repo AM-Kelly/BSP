@@ -13,6 +13,7 @@ import android.net.Uri;
 
 /**
  * Created by Adam on 05/03/2018.
+ * This is the database helper class -> used for book information
  */
 
 public class BookProvider extends ContentProvider {

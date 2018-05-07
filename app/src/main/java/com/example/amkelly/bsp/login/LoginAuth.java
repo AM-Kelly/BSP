@@ -38,6 +38,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
     // [END declare_auth]
 
     @Override
+    //On load set the context layout of the page to the login auth activity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_auth);
@@ -70,6 +71,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
     }
     // [END on_start_check_user]
 
+    ///If the user doesn't have an account --> account will be created here (with validation)
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
@@ -103,7 +105,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                 });
         // [END create_user_with_email]
     }
-
+    //If the user has a account --> sign in occurs here (with validation)
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
@@ -113,7 +115,6 @@ public class LoginAuth extends Activity implements View.OnClickListener{
         showProgressDialog();
 
         // [START sign_in_with_email]
-        /**TODO: Make this activity the parent of the subsequent activities - so other activities can go back**/
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -143,12 +144,12 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                 });
         // [END sign_in_with_email]
     }
-
+    //This will sign the user out of the system
     private void signOut() {
         mAuth.signOut();
         updateUI(null);
     }
-
+    //Email verification will occur here
     private void sendEmailVerification() {
         // Disable button
         findViewById(R.id.verify_email_button).setEnabled(false);
@@ -179,7 +180,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
                 });
         // [END send_email_verification]
     }
-
+    //Form validation
     private boolean validateForm() {
         boolean valid = true;
 
@@ -201,7 +202,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
 
         return valid;
     }
-
+    //UI update function (used for logging in and logging out
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
@@ -226,7 +227,7 @@ public class LoginAuth extends Activity implements View.OnClickListener{
             findViewById(R.id.booksHolder).setVisibility(View.GONE);
         }
     }
-
+    //On click function for getting data from the user and checking against the firebase database
     @Override
     public void onClick(View v) {
         int i = v.getId();
